@@ -1,0 +1,62 @@
+---
+title: "Untitled"
+author: "Aser Gebremariam"
+date: "2025-03-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+```{r}
+table2 <- tibble(
+  country = c("Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan"),
+  year = c(1999, 1999, 2000, 2000),
+  type = c("cases", "population", "cases", "population"),
+  count = c(745, 19987071, 2666, 20595360)
+)
+
+table3 <- tibble(
+  country = c("Afghanistan", "Afghanistan"),
+  year = c(1999, 2000),
+  rate = c("745/19987071", "2666/20595360")
+)
+
+```
+```{r}
+table2_cases <- table2 %>%
+  filter(type == "cases") %>%
+  rename(cases = count)
+
+table2_population <- table2 %>%
+  filter(type == "population") %>%
+  rename(population = count)
+
+```
+```{r}
+table2_rate <- table2_cases %>%
+  left_join(table2_population, by = c("country", "year")) %>%
+  mutate(rate = (cases / population) * 10000) %>%
+  select(country, year, rate)
+```
+```{r}
+print(table2_rate)
+table3_rate <- table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/") %>%
+  mutate(
+    cases = as.numeric(cases),
+    population = as.numeric(population),
+    rate = (cases / population) * 10000
+  ) %>%
+  select(country, year, rate)
+
+# Print result
+print(table3_rate)
+```
+
+
+

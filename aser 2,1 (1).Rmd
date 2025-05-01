@@ -1,0 +1,51 @@
+---
+title: "excersise 6.3"
+author: "Aser Gebremariam"
+date: "2025-03-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+One interesting tip I found from the RStudio Tips account is about the DataEditR package. Manual data entry and editing in R can be tedious, especially for users who are more comfortable with a GUI-based approach. DataEditR provides an interactive way to view, enter, filter, and edit data using a Shiny-based interface.
+
+Practicing with DataEditR
+To get started, I installed the package:
+  
+```{r}
+install.packages("DataEditR")
+
+```
+```{r}
+library(devtools)
+install_github("DillonHammill/DataEditR")
+devtools::install_github("DillonHammill/rhandsontable")
+
+```
+
+Then, I experimented with data_edit(), which provides an interactive interface for editing data. I tested it using the built-in mtcars dataset:
+
+This allowed me to modify the dataset directly in a graphical table, similar to working in Excel. The changes were saved as a new file, making data cleaning and transformation much easier.
+
+2.Common Mistakes Reported by RStudio Diagnostics:
+
+RStudio's diagnostics engine helps identify potential issues in your code. Common mistakes it reports include:
+
+Function Argument Issues:
+
+Missing Arguments: When a function call lacks required arguments.
+Unmatched Arguments: When provided arguments don't match the function's parameters.
+Partially Matched Arguments: When argument names are abbreviated ambiguously.
+Excess Arguments: When too many arguments are supplied to a function.
+Undefined Variables:
+
+Using variables that haven't been defined in the current or parent scope.
+Unused Variables:
+
+Defining variables that are never utilized in the code.
+Style Issues:
+
+Violations of coding style guidelines, such as improper whitespace usage.
+

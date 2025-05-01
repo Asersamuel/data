@@ -1,0 +1,499 @@
+---
+title: "Project 1"
+author: "Aser Gebremariam"
+date: "2024-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ggthemes)      # For scale_color_colorblind()
+library(palmerpenguins) # For penguins dataset
+```
+
+```{r}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  ) +
+  scale_color_colorblind()
+
+```
+
+```{r}
+# 1 Number of rows and columns
+nrow(penguins)  # Rows
+ncol(penguins)  # Columns
+
+```
+```{r}
+# 2
+# describe 
+?penguins
+
+
+```
+
+```{r}
+#3
+#Scatterplot of bill_depth_mm vs. bill_length_mm
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  labs(
+    title = "Bill Depth vs. Bill Length",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)"
+  )
+
+```
+
+```{r}
+# 3
+# Scatterplot of species vs. bill_depth_mm
+ggplot(data = penguins, aes(x = species, y = bill_depth_mm)) +
+  geom_point()
+#boxplot
+ggplot(data = penguins, aes(x = species, y = bill_depth_mm)) +
+  geom_boxplot() +
+  labs(
+    title = "Bill Depth by Species",
+    x = "Species",
+    y = "Bill Depth (mm)"
+  )
+# conclusion A scatterplot is not suitable for a categorical variable like species. A better choice is a boxplot.
+
+```
+
+```{r}
+#5
+#This fails because geom_point() requires both x and y aesthetics. To fix:
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+
+
+
+
+```
+```{r}
+#6
+#Using na.rm in geom_point()
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    title = "Scatterplot with na.rm = TRUE",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)"
+  )
+
+
+```
+```{r}
+#7
+#Adding a Caption
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    title = "Scatterplot of Bill Dimensions",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)",
+    caption = "Data come from the palmerpenguins package."
+  )
+
+
+```
+```{r}
+#8
+ggplot(data = penguins, aes(x = bill_length_mm, y = flipper_length_mm)) +
+  geom_point(aes(color = bill_depth_mm)) +
+  labs(
+    title = "Bill Length vs. Flipper Length",
+    x = "Bill Length (mm)",
+    y = "Flipper Length (mm)",
+    color = "Bill Depth (mm)"
+  ) +
+  theme_minimal()
+# Original Plot: Body Mass vs. Flipper Length
+ggplot(data = penguins, aes(x = bill_length_mm, y = flipper_length_mm)) +
+  geom_point(aes(color = bill_depth_mm)) +
+  labs(
+    title = "Bill Length vs. Flipper Length",
+    x = "Bill Length (mm)",
+    y = "Flipper Length (mm)",
+    color = "Bill Depth (mm)"
+  ) +
+  theme_minimal()
+
+
+```
+```{r}
+# 9
+#Predicted Output:
+dim(penguins)
+
+#run the model
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = island)
+) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+
+```
+```{r}
+#10
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point() +
+  geom_smooth()
+
+ggplot() +
+  geom_point(
+    data = penguins,
+    mapping = aes(x = flipper_length_mm, y = body_mass_g)
+  ) +
+  geom_smooth(
+    data = penguins,
+    mapping = aes(x = flipper_length_mm, y = body_mass_g)
+  )
+# they look exactly the same
+```
+```{r}
+# 1.43
+
+```
+
+```{r}
+# 1.43
+#1
+ggplot(data = penguins, aes(y = species)) +
+  geom_bar() +
+  labs(
+    title = "Count of Penguin Species",
+    x = "Count",
+    y = "Species"
+  )
+#Mapping species to the y-axis makes the bars horizontal instead of vertical, with the count shown on the x-axis.
+
+
+```
+
+```{r}
+# 1.43
+#2
+ggplot(penguins, aes(x = species)) +
+  geom_bar(color = "red")
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar(fill = "red")
+#The first plot colors only the bar outlines, while the second fills the bars; fill is more useful for changing bar colors.
+```
+
+```{r}
+# 1.43
+#3
+#The bins argument in geom_histogram() controls the number of bins used to divide the data range, affecting the granularity of the histogram.
+```
+
+```{r}
+# 1.43
+#4
+ggplot(diamonds, aes(x = carat)) +
+  geom_histogram() +
+  labs(
+    title = "Distribution of Diamond Carat Weights",
+    x = "Carat",
+    y = "Count"
+  )
+#experementing with other bin
+ggplot(diamonds, aes(x = carat)) +
+  geom_histogram(binwidth = 0.01, fill = "blue", color = "black") +
+  labs(
+    title = "Histogram with Binwidth = 0.01",
+    x = "Carat",
+    y = "Count"
+  )
+#The histogram reveals sharp peaks and gaps, showing fine details in distribution and highlighting popular carat sizes like 0.5, 1.0, and 1.5 carats.
+
+```
+
+```{r}
+# 1.5
+# 1. Exploring mpg dataset: Categorical vs. Numerical Variables
+?mpg
+# View structure of the mpg dataset
+str(mpg)
+# Get a summary to distinguish categorical and numerical variables
+summary(mpg)
+
+```
+
+```{r}
+#1.5
+# 2. Scatterplot of hwy vs. displ
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  labs(
+    title = "Highway MPG vs. Engine Displacement",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG"
+  )
+ggplot(data = mpg, aes(x = displ, y = hwy, color = cty)) +
+  geom_point() +
+  labs(
+    title = "Highway MPG vs. Engine Displacement (Colored by City MPG)",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    color = "City MPG"
+  )
+
+# Mapping a third numerical variable to size
+ggplot(data = mpg, aes(x = displ, y = hwy, size = cty)) +
+  geom_point() +
+  labs(
+    title = "Highway MPG vs. Engine Displacement (Sized by City MPG)",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    size = "City MPG"
+  )
+
+# Mapping to both color and size
+ggplot(data = mpg, aes(x = displ, y = hwy, color = cty, size = cty)) +
+  geom_point() +
+  labs(
+    title = "Highway MPG vs. Engine Displacement (Color & Size by City MPG)",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    color = "City MPG",
+    size = "City MPG"
+  )
+
+# Mapping to shape (Only works for categorical variables)
+ggplot(data = mpg, aes(x = displ, y = hwy, shape = drv)) +
+  geom_point() +
+  labs(
+    title = "Highway MPG vs. Engine Displacement (Shape by Drive Type)",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    shape = "Drive Type"
+  )
+
+
+```
+
+```{r}
+#1.5
+# 3. Mapping a third variable to linewidth
+ggplot(data = mpg, aes(x = displ, y = hwy, linewidth = cty)) +
+  geom_point() +
+  labs(
+    title = "Effect of Mapping to Linewidth",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    linewidth = "City MPG"
+  )
+# Observation: linewidth doesn't apply well to points and works better for lines.
+
+
+```
+
+```{r}
+# 1.5
+# 4. Mapping the same variable to multiple aesthetics
+ggplot(data = mpg, aes(x = displ, y = hwy, color = cty, size = cty)) +
+  geom_point() +
+  labs(
+    title = "Effect of Mapping the Same Variable to Multiple Aesthetics",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    color = "City MPG",
+    size = "City MPG"
+  )
+# Observation: It can make patterns more apparent but may also clutter the visualization.
+
+
+
+```
+
+```{r}
+# 1.5
+# 4. Mapping the same variable to multiple aesthetics
+ggplot(data = mpg, aes(x = displ, y = hwy, color = cty, size = cty)) +
+  geom_point() +
+  labs(
+    title = "Effect of Mapping the Same Variable to Multiple Aesthetics",
+    x = "Engine Displacement (liters)",
+    y = "Highway MPG",
+    color = "City MPG",
+    size = "City MPG"
+  )
+# Observation: It can make patterns more apparent but may also clutter the visualization.
+
+
+
+```
+
+```{r}
+#1.5
+# 5. Scatterplot of bill_depth_mm vs. bill_length_mm (Colored by species)
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point() +
+  labs(
+    title = "Bill Depth vs. Bill Length (Colored by Species)",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)",
+    color = "Species"
+  )
+# Faceting by species
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  facet_wrap(~ species) +
+  labs(
+    title = "Bill Depth vs. Bill Length (Faceted by Species)",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)"
+  )
+# Observation: Coloring shows species-specific clustering, while faceting separates species entirely.
+
+
+```
+
+```{r}
+#1.5
+# 6. Why does the following yield two separate legends?
+ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm, y = bill_depth_mm, 
+    color = species, shape = species
+  )
+) +
+  geom_point() +
+  labs(color = "Species")
+
+# Fix: Use labs() to set both color and shape together
+ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm, y = bill_depth_mm, 
+    color = species, shape = species
+  )
+) +
+  geom_point() +
+  labs(
+    title = "Bill Dimensions with Combined Legend",
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)",
+    color = "Species",
+    shape = "Species"
+  )
+# Observation: Legends are combined when the same label is used for both aesthetics.
+
+
+
+```
+
+```{r}
+#1.5
+# 7. Stacked Bar Plots for Species & Island
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Proportion of Penguin Species by Island",
+    x = "Island",
+    y = "Proportion",
+    fill = "Species"
+  )
+# Question Answered: What proportion of each species lives on each island?
+
+ggplot(penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Proportion of Islands for Each Penguin Species",
+    x = "Species",
+    y = "Proportion",
+    fill = "Island"
+  )
+# Question Answered: What proportion of each species is found on each island?
+
+```
+
+```{r}
+# 1.6
+#  Create a bar plot
+bar_plot <- ggplot(mpg, aes(x = class)) +
+  geom_bar()
+
+#  Create a scatterplot
+scatter_plot <- ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point()
+
+# . Display both plots (last one shown is saved by default)
+bar_plot
+scatter_plot
+
+# 4. Save the last created plot (scatter plot) as PNG
+ggsave("mpg-plot.png")  # This saves the scatter plot because it was last created
+
+# 5. To save the bar plot instead, explicitly specify the plot
+ggsave("mpg-bar-plot.png", plot = bar_plot)
+
+# 6. Save the plot as a PDF instead of PNG
+ggsave("mpg-plot.pdf")
+
+# 7. Find out what file formats are supported
+?ggsave  # Opens the documentation for ggsave()
+
+```
+
+```{r}
+# 2.5
+# 1 The variable name my_varıable (with a Turkish "ı") does not match my_variable (with a regular "i"), and R is case-sensitive, requiring exact matches.
+
+
+```
+
+```{r}
+# 2.5
+# Correcting the library loading
+library(tidyverse)
+
+# Correcting ggplot syntax errors
+library(ggplot2)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+
+# 3
+# Pressing Option + Shift + K on Mac opens RStudio's Keyboard Shortcuts Help, which can also be accessed via Tools → Keyboard Shortcuts Help in the menu.
+
+```
+
+```{r}
+# 2.5
+#4
+my_bar_plot <- ggplot(mpg, aes(x = class)) +
+  geom_bar()
+
+my_scatter_plot <- ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point()
+
+ggsave(filename = "mpg-plot.png", plot = my_bar_plot)
+
+
+```
+
+

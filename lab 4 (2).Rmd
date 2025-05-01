@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "Aser Gebremariam"
+date: "2025-03-05"
+output: html_document
+---
+
+```{r}
+# 1
+#To read a file where fields are separated by |, use the read_delim() function:
+
+```
+
+```{r}
+#2
+#Both read_csv() and read_tsv() share several common arguments that help in reading and processing data efficiently. These include col_names to specify column names, col_types to define data types, and na to identify missing values. Additionally, they support trim_ws to remove extra whitespace, n_max to limit the number of rows read, and guess_max to control the number of rows used for guessing column types.
+
+```
+
+```{r}
+# 3
+#The read_fwf() function, used for reading fixed-width files, has three key arguments that help define the structure of the data. fwf_widths() allows manual specification of column widths, while fwf_positions() defines exact column positions. Additionally, col_types is used to specify the data types of each column, ensuring accurate parsing of the file.
+
+```
+
+```{r}
+library(readr)
+
+read_csv("x,y\n1,'a,b'", quote = "'")
+
+
+```
+
+```{r}
+#Mismatch → The first row has two columns, but the following rows have three; correct it as read_csv("a,b,c\n1,2,3\n4,5,6").
+
+```
+
+```{r}
+# Load tibble package
+library(tibble)
+
+# Create the tibble with non-syntactic names
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+# Extract the variable called `1`
+annoying$`1`
+
+# Plot `1` vs `2`
+plot(annoying$`1`, annoying$`2`)
+
+# Create a new column `3`, which is `2` divided by `1`
+annoying <- annoying %>%
+  mutate(`3` = `2` / `1`)
+
+# Rename columns to one, two, and three
+annoying <- annoying %>%
+  rename(one = `1`, two = `2`, three = `3`)
+
+
+```
